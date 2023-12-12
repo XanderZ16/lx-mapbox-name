@@ -1,13 +1,20 @@
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from time import sleep
 from pymongo import MongoClient
 import requests
 
-password = 'Aa13245768'
-db_cdn = f'mongodb+srv://xander:{password}@cluster0.hgsq4xy.mongodb.net/?retryWrites=true&w=majority'
-client = MongoClient(db_cdn)
-db = client.dbxander
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME = os.environ.get("DB_NAME")
+
+client = MongoClient(MONGODB_URI)
+db = client[DB_NAME]
 
 driver = webdriver.Edge()
 url = 'https://www.yelp.com/search?cflt=restaurants&find_loc=Bras+Brasah%2C+Singapore'
